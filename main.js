@@ -23,7 +23,11 @@ const drawGame = () => {
     ctx.drawImage(anotherCar, 100, 15, carsParam.width, carsParam.height);
 
     if(rightPressed == true){
-        carsParam.x += 3
+        
+        carsParam.x += 3;
+    }
+    if(leftPressed == true){
+        carsParam.x -= 3;
     }
 }
 
