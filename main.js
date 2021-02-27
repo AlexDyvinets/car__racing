@@ -16,11 +16,27 @@ let carsParam = {
     y: 90,
 }
 
+let score = 0;
+
+let carPos = [];
+let backPos = [];
+
+
+carPos[0] = {
+    x: Math.floor(Math.random()),
+    y: -60
+};
+
 
 const drawGame = () => {
     ctx.drawImage(bg, -50, 0, 400, 400);
     ctx.drawImage(mainCar, carsParam.x, carsParam.y, carsParam.width, carsParam.height);
-    ctx.drawImage(anotherCar, 100, 15, carsParam.width, carsParam.height);
+    moveAnotherCars();
+    ctx.fillStyle = "#000";
+    ctx.font = "18px Verdana";
+    ctx.fillText(`Счёт: ${score}`, 10, 20);
+
+
 
     if(rightPressed == true){
         
@@ -28,6 +44,41 @@ const drawGame = () => {
     }
     if(leftPressed == true){
         carsParam.x -= 3;
+    }
+
+
+}
+
+
+const moveAnotherCars = () => {
+    for(let i=0; i<carPos.length; i++){
+        ctx.drawImage(anotherCar, carPos[i].x, carPos[i].y, carsParam.width, carsParam.height);
+        carPos[i].y++;
+        if(carPos[i].y == 100){
+            carPos.push({
+                x: Math.floor(Math.random() * Math.floor(200)),
+                y: -60
+            });
+        if(carPos[i].y == 100){
+            score++;
+        }
+        }
+    }
+
+}
+
+const levelUp = () => {
+    if(score <= 30){
+        setInterval(drawGame, 10);
+    }
+    if(score > 30 && score <= 50){
+        setInterval(drawGame, 2);
+    }
+    if(score > 50 && score <= 70){
+        setInterval(drawGame, 5);
+    }
+    if(score > 70 && score <= 100){
+        setInterval(drawGame, 3);
     }
 }
 
@@ -52,6 +103,4 @@ let keyUpHandler = (e) => {
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 
-
-setInterval(drawGame, 10);
-
+levelUp();
